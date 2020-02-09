@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Facelets Hello World</title>
+
+</h:head>
+<f:metadata>
+	<f:viewAction action="#{testAction.init}" />
+</f:metadata>
+<h:body>
+	<h:form>
+		<script type="text/javascript">
+		var showDialog = '#{testBean.showFlg}';
+		$(document).ready(function() {
+			setTimeout(function(){
+				if (showDialog === 'true') {
+					PF('dlg2').show();
+				}
+		    },10);
+
+		});
+	</script>
+        #{hello.world}
+        <h:outputLabel value="#{testBean.testString}" />
+		<h:panelGrid columns="1" cellpadding="5">
+			<p:commandButton value="SHOW" ajax="false"
+				action="#{testAction.doDaialogShow}" />
+			<p:commandButton value="TEST" ajax="false"
+				action="#{testAction.doTest}" />
+		</h:panelGrid>
+
+		<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true">
+			<div>
+				<h:outputText value="Do you want to go on ？" />
+			</div>
+			<div style="text-align: center; margin-top: 15px">
+				<p:commandButton value="YES" ajax="false"
+					action="#{testAction.doDialogEnd}" style="margin-right:10px" />
+				<p:commandButton value="NO" type="button"
+					onclick="PF('dlg2').hide();" />
+			</div>
+		</p:dialog>
+
+	</h:form>
+</h:body>
+
+</html>
