@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        window.onload = function () {
+            var maxLines = 6;
+            $('#textarea').keypress(function (event) {
+                value = $(this).val();
+                newlines = value.split('\n').length;
+                if (newlines >= maxLines && event.keyCode == 13) {
+                    return false;
+                }
+
+            });
+            $('#textarea').on('paste', function (event) {
+                value = $(this).val();
+                newlines = value.split('\n').length;
+                if (newlines >= maxLines && event.keyCode == 13) {
+                    return false;
+                }
+            })
+            $('#textarea').keyup(function (event) {
+                cursorIndex = $(this).get(0).selectionStart;
+                value = $(this).val();
+                arrayOld = value.split('\n');
+                arrayNew = [];
+                $.each(arrayOld,function (index, val) {
+                    eachArray = [];
+                    if (val.length > 50) {
+                        eachArray = val.replace(/(.{50})/g, '$1\n').split('\n');
+                        if (eachArray[eachArray.length -1] == ''){
+                            eachArray.pop();
+                        }
+                    } else {
+                        eachArray.push(val);
+                    }
+                    arrayNew = arrayNew.concat(eachArray);
+                   
+                });
+                if (arrayNew.length > maxLines) {
+                    arrayNew.splice(maxLines-1,arrayNew.length - maxLines);
+                }
+                valNew = arrayNew.join('\n');
+                if(valNew == value) {
+                    return;
+                }
+                $(this).val(valNew);
+                $(this).get(0).selectionStart = cursorIndex + valNew.length -value.length;
+                $(this).get(0).selectionEnd = cursorIndex + valNew.length -value.length;
+                
+            });
+            $('#textarea').keydown(function (event) {
+                //return false;
+            });
+        }
+        function abc() {
+            document.getElementById("test").innerText = "Hello World";
+        }
+    </script>
+    <style>
+        table td {
+            background: #eee;
+        }
+
+        table tr:nth-child(odd) td {
+            background: #fff;
+        }
+
+
+        table.test td {
+            background: rgb(189, 225, 245);
+        }
+
+        table.test tr:nth-child(odd) td {
+            background: rgb(228, 211, 117);
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <span id="test"></span>
+    </div>
+    <div>
+        <table id="test">
+            <tr>
+                <th>No</th>
+                <th>Item</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>あ</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>い</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>う</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>え</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>お</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <table id="xxx" class="test">
+            <tr>
+                <th>No</th>
+                <th>Item</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>あ</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>い</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>う</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>え</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>お</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <textarea name="textarea" id="textarea" cols="70" rows="10" maxlength="200" wrap="soft"></textarea>
+    </div>
+</body>
+
+</html>

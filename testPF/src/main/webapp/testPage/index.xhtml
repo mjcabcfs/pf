@@ -30,6 +30,7 @@
 				action="#{testAction.doDaialogShow}" />
 			<p:commandButton value="TEST" ajax="false"
 				action="#{testAction.doTest}" />
+			<h:commandButton value="TEST" type="button" onclick="PF('dlg2').show();" />
 		</h:panelGrid>
 
 		<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true">
